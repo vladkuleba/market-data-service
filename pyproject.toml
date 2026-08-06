@@ -9,3 +9,18 @@ dependencies = [
 
 ]
 requires-python = ">= 3.12"
+
+[dependency-groups]
+dev = [
+    "ruff==0.16.1",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle: PEP 8 style errors
+    "W",   # pycodestyle: whitespace warnings
+    "F",   # pyflakes: unused imports, undefined names
+    "I",   # isort: import order
+    "UP",  # pyupgrade: outdated syntax for the target version
+    "B",   # bugbear: likely bugs, e.g. mutable default arguments
+]
