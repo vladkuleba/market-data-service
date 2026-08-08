@@ -3,7 +3,7 @@ from typing import Annotated
 
 from fastapi import FastAPI, Query
 
-from marketdata.api.schemas import Candle, CandlePage
+from marketdata.api.schemas import Candle, CandlePage, Interval
 
 app = FastAPI()
 
@@ -16,7 +16,7 @@ async def health():
 @app.get("/v1/candles")
 async def candles(
     symbol: Annotated[str, Query()],
-    interval: Annotated[str, Query()],
+    interval: Annotated[Interval, Query()],
     start_time: Annotated[int, Query(ge=0)],
     end_time: Annotated[int, Query(ge=0)],
     limit: Annotated[int | None, Query(ge=1, le=1000)] = 100,

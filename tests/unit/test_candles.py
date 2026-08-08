@@ -39,3 +39,16 @@ def test_candles_valid_request_returns_page():
 def test_candles_missing_params_is_rejected():
     response = client.get("/v1/candles")
     assert response.status_code == 422
+
+
+def test_candles_invalid_interval_is_rejected():
+    response = client.get(
+        "/v1/candles",
+        params={
+            "symbol": "BTCUSDT",
+            "interval": "17m",
+            "start_time": 100,
+            "end_time": 200,
+        },
+    )
+    assert response.status_code == 422
