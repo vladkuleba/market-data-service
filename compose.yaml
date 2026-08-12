@@ -10,6 +10,7 @@ services:
 
     volumes:
       - db_data:/var/lib/postgresql/18/docker
+      - ./db:/docker-entrypoint-initdb.d:ro
 
     healthcheck:
       test: ["CMD-SHELL", "psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c 'select 1'"]
