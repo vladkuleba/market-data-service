@@ -6,10 +6,11 @@ services:
       - .env
 
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
 
     volumes:
       - db_data:/var/lib/postgresql/18/docker
+      - ./db:/docker-entrypoint-initdb.d:ro
 
     healthcheck:
       test: ["CMD-SHELL", "psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c 'select 1'"]
