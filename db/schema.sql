@@ -1,0 +1,24 @@
+CREATE TABLE candles (
+    symbol TEXT NOT NULL,
+    interval VARCHAR(5)
+        CHECK (interval IN
+            ('1s', '1m', '3m', '5m', '15m', '30m', '1h', '2h',
+             '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'))
+        NOT NULL,
+
+    open_time BIGINT NOT NULL,
+    close_time BIGINT NOT NULL,
+
+    open NUMERIC(18, 8) NOT NULL,
+    high NUMERIC(18, 8) NOT NULL,
+    low NUMERIC(18, 8) NOT NULL,
+    close NUMERIC(18, 8) NOT NULL,
+
+    volume NUMERIC(24, 8) NOT NULL,
+    quote_volume NUMERIC(24, 8) NOT NULL,
+    taker_buy_base_volume NUMERIC(24, 8) NOT NULL,
+    taker_buy_quote_volume NUMERIC(24, 8) NOT NULL,
+
+    trades INT NOT NULL,
+    PRIMARY KEY (symbol, interval, open_time)
+);
