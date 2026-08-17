@@ -52,7 +52,6 @@ class DownloadRequest(BaseModel):
 
 
 class DownloadStatus(BaseModel):
-    # This is a temporary solution for ID
     id: int
     status: Status
     error: str | None = None
