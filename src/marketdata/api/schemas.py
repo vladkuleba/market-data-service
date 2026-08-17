@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 Interval = Literal[
     "1s",
@@ -49,6 +49,12 @@ class DownloadRequest(BaseModel):
     interval: Interval
     start_time: int = Field(ge=0)
     end_time: int = Field(ge=0)
+
+    @model_validator(mode="after")
+    def check_end_greater_than_start(self):
+        if self.end_time <= self.start_time:
+            raise ValueError("end_time must be greater than start_time")
+        return self
 
 
 class DownloadStatus(BaseModel):
