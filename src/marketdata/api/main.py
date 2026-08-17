@@ -3,7 +3,13 @@ from typing import Annotated
 
 from fastapi import FastAPI, Query
 
-from marketdata.api.schemas import Candle, CandlePage, Interval
+from marketdata.api.schemas import (
+    Candle,
+    CandlePage,
+    DownloadRequest,
+    DownloadStatus,
+    Interval,
+)
 
 app = FastAPI()
 
@@ -28,6 +34,12 @@ async def candles(
     return candle_page
 
 
+@app.post("/v1/downloads", status_code=201)
+async def download(request: DownloadRequest) -> DownloadStatus:
+    dowload_status = make_fake_download_status()
+    return dowload_status
+
+
 def make_fake_candle() -> Candle:
     return Candle(
         open_time=1735689600000,
@@ -41,4 +53,12 @@ def make_fake_candle() -> Candle:
         trades=1543,
         taker_buy_base_volume=Decimal("6.12345"),
         taker_buy_quote_volume=Decimal("572847.91"),
+    )
+
+
+def make_fake_download_status() -> DownloadStatus:
+    return DownloadStatus(
+        id=0,
+        status="pending",
+        error=None,
     )
