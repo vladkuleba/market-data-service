@@ -22,6 +22,8 @@ Interval = Literal[
     "1M",
 ]
 
+Status = Literal["pending", "running", "done", "failed"]
+
 
 class Candle(BaseModel):
     open_time: int
@@ -40,3 +42,16 @@ class Candle(BaseModel):
 class CandlePage(BaseModel):
     data: list[Candle]
     next_cursor: str | None = None
+
+
+class DownloadRequest(BaseModel):
+    symbol: str
+    interval: Interval
+    start_time: int = Field(ge=0)
+    end_time: int = Field(ge=0)
+
+
+class DownloadStatus(BaseModel):
+    id: int
+    status: Status
+    error: str | None = None
