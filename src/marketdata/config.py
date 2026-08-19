@@ -18,11 +18,17 @@ def _require(name: str) -> str:
     return value
 
 
+_settings: Settings | None = None
+
+
 def load_settings() -> Settings:
-    return Settings(
-        postgres_user=_require("POSTGRES_USER"),
-        postgres_password=_require("POSTGRES_PASSWORD"),
-        postgres_db=_require("POSTGRES_DB"),
-        postgres_host=_require("POSTGRES_HOST"),
-        postgres_port=int(_require("POSTGRES_PORT")),
-    )
+    global _settings
+    if _settings is None:
+        _settings = Settings(
+            postgres_user=_require("POSTGRES_USER"),
+            postgres_password=_require("POSTGRES_PASSWORD"),
+            postgres_db=_require("POSTGRES_DB"),
+            postgres_host=_require("POSTGRES_HOST"),
+            postgres_port=int(_require("POSTGRES_PORT")),
+        )
+    return _settings
