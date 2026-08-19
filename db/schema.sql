@@ -22,3 +22,21 @@ CREATE TABLE candles (
     trades INT NOT NULL,
     PRIMARY KEY (symbol, interval, open_time)
 );
+
+CREATE TABLE download_jobs (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    symbol TEXT NOT NULL,
+    interval VARCHAR(5)
+        CHECK (interval IN
+            ('1s', '1m', '3m', '5m', '15m', '30m', '1h', '2h',
+             '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'))
+        NOT NULL,
+    start_time BIGINT NOT NULL,
+    end_time BIGINT NOT NULL,
+    status TEXT
+        CHECK (status IN
+            ('pending', 'running', 'done', 'failed'))
+        NOT NULL,
+    error TEXT,
+    CHECK (end_time > start_time)
+);
