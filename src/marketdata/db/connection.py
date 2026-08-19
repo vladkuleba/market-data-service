@@ -11,3 +11,12 @@ def connect(settings: Settings) -> psycopg.Connection:
         password=settings.postgres_password,
         dbname=settings.postgres_db,
     )
+
+
+def check_connection(settings: Settings) -> bool:
+    try:
+        with connect(settings) as conn:
+            conn.execute("SELECT 1")
+    except psycopg.Error:
+        return False
+    return True

@@ -10,12 +10,17 @@ from marketdata.api.schemas import (
     DownloadStatus,
     Interval,
 )
+from marketdata.config import load_settings
+from marketdata.db.connection import check_connection
 
 app = FastAPI()
 
 
 @app.get("/health")
-async def health():
+def health():
+    if not check_connection(load_settings()):
+        raise HTTPException(status_code=503, detail="database unavailable")
+
     return {"status": "UP"}
 
 
