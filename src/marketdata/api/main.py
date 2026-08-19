@@ -28,6 +28,10 @@ async def candles(
     limit: Annotated[int | None, Query(ge=1, le=1000)] = 100,
     cursor: Annotated[str | None, Query()] = None,
 ) -> CandlePage:
+    if end_time <= start_time:
+        raise HTTPException(
+            status_code=422, detail="end_time must be greater than start_time"
+        )
 
     candle = make_fake_candle()
     candle_page = CandlePage(data=[candle])

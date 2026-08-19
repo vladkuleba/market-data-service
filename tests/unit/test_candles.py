@@ -52,3 +52,16 @@ def test_candles_invalid_interval_is_rejected():
         },
     )
     assert response.status_code == 422
+
+
+def test_candles_invalid_period_is_rejected():
+    response = client.get(
+        "/v1/candles",
+        params={
+            "symbol": "BTCUSDT",
+            "interval": "15m",
+            "start_time": 200,
+            "end_time": 100,
+        },
+    )
+    assert response.status_code == 422
