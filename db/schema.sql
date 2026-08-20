@@ -38,5 +38,18 @@ CREATE TABLE download_jobs (
             ('pending', 'running', 'done', 'failed'))
         NOT NULL,
     error TEXT,
+
+    started_at TIMESTAMPTZ,
+    finished_at TIMESTAMPTZ,
+
+    candles_written INT NOT NULL DEFAULT 0,
+
     CHECK (end_time > start_time)
 );
+
+-- Claim index for: SELECT ... WHERE status = 'pending' ORDER BY id
+--                  FOR UPDATE SKIP LOCKED LIMIT 1
+-- Partial: finished jobs leave the index, so it stays small forever.
+CREATE INDEX download_jobs_pending_idx
+    ON download_jobs (id)
+    WHERE status = 'pending';
